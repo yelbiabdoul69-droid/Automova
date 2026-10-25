@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AutoMova – Voitures et motos en Côte d’Ivoire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0a1230; --nuit2:#122052; --elec:#1f5bff; --elec-d:#1646cc; --blanc:#fff;
+  --bg:#f3f6ff; --surface:#fff; --ink:#0e1633; --muted:#5b6586; --line:#dde4f7; --chip:#e8eeff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#070d24;--surface:#0e1838;--ink:#eef2ff;--muted:#9aa7cf;--line:#1d2b5c;--chip:#16224d}
+}
+:root[data-theme="dark"]{--bg:#070d24;--surface:#0e1838;--ink:#eef2ff;--muted:#9aa7cf;--line:#1d2b5c;--chip:#16224d}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Nunito Sans",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--nuit);z-index:30}
+h1,h2,h3,.logo{font-family:Sora,system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #7ea2ff;outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--nuit);color:var(--blanc)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 6px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.3rem}
+.logo i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--elec)}
+nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;padding:8px 14px;border-radius:999px;font-weight:600;font-size:.92rem;color:#c9d5ff}
+nav a:hover,nav a.on{background:var(--nuit2);color:var(--blanc)}
+nav a.cta{background:var(--elec);color:var(--blanc)}
+
+.hero{background:var(--nuit);color:var(--blanc);padding:28px 0 90px;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(1.9rem,6vw,3.2rem);line-height:1.08;font-weight:800;max-width:15em}
+.hero p{max-width:34em;color:#c9d5ff;margin:14px 0 0;font-size:1.05rem}
+.hero .art{position:absolute;right:-30px;bottom:34px;width:min(62%,520px);opacity:.9}
+.hero .wrap{position:relative;z-index:1}
+
+.search{margin:-62px auto 0;position:relative;z-index:2;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 12px 36px rgba(10,18,48,.22)}
+.fields{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:760px){.fields{grid-template-columns:2fr 1.2fr 1.2fr auto}}
+label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:4px}
+input,select{width:100%;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:0 12px;font:inherit}
+.btn{height:46px;border:0;border-radius:12px;padding:0 20px;font-weight:700;background:var(--elec);color:var(--blanc);align-self:end}
+.btn:hover{background:var(--elec-d)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:700;font-size:.9rem}
+.chip[aria-pressed="true"]{background:var(--elec);border-color:var(--elec);color:var(--blanc)}
+
+.demo{margin:18px 0 0;padding:10px 14px;border-radius:12px;background:var(--chip);color:var(--muted);font-size:.9rem}
+section.list{padding:30px 0 4px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+.head h2{font-size:1.4rem}
+.head span{color:var(--muted);font-size:.9rem}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.media{position:relative;aspect-ratio:16/10;display:grid;place-items:center;background:linear-gradient(135deg,var(--nuit2),var(--elec))}
+.media svg{width:78%;height:auto}
+.tag{position:absolute;top:10px;left:10px;background:var(--blanc);color:var(--nuit);font-weight:800;font-size:.78rem;padding:4px 10px;border-radius:999px}
+.tag.ex{left:auto;right:10px;background:rgba(10,18,48,.7);color:#fff;font-weight:600}
+.body{padding:14px;display:grid;gap:4px}
+.body h3{font-size:1.02rem;line-height:1.25}
+.meta{display:flex;flex-wrap:wrap;gap:4px 12px;color:var(--muted);font-size:.88rem}
+.price{font-family:Sora,sans-serif;font-weight:800;font-size:1.15rem;color:var(--elec);margin-top:6px}
+:root[data-theme="dark"] .price{color:#7ea2ff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .price{color:#7ea2ff}}
+.price small{font-weight:600;color:var(--muted);font-size:.8rem}
+.empty{padding:26px;border:2px dashed var(--line);border-radius:16px;color:var(--muted);text-align:center}
+
+.pub{margin:36px 0 0;background:var(--nuit);color:var(--blanc);border-radius:24px;padding:28px 20px;display:grid;gap:14px;justify-items:start}
+.pub h2{font-size:1.5rem}.pub p{margin:0;color:#c9d5ff;max-width:34em}
+.pub .btn{display:inline-flex;align-items:center;height:50px}
+.warn{margin:22px 0 0;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);font-size:.92rem;color:var(--muted)}
+footer{margin-top:36px;background:var(--nuit);color:#c9d5ff;padding:30px 0 34px;font-size:.92rem}
+footer .cols{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+footer h3{color:var(--blanc);font-size:1rem;margin-bottom:8px}
+footer a{display:block;padding:3px 0}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%) translateY(20px);background:var(--nuit);color:#fff;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;max-width:92%;z-index:40;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%)}
+[hidden]{display:none!important}.modal{position:fixed;inset:0;z-index:50;background:rgba(10,18,48,.65);display:flex;align-items:flex-end;justify-content:center}.sheet{background:var(--surface);width:100%;max-width:640px;max-height:92vh;max-height:92dvh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 16px calc(env(safe-area-inset-bottom,0px) + 24px);display:grid;gap:14px;align-content:start;outline:0}@media(min-width:700px){.modal{align-items:center}.sheet{border-radius:24px}}.sh{display:flex;justify-content:space-between;align-items:center}.sh h2{font-size:1.3rem}.x{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--chip);color:var(--ink)}.fm{display:grid;gap:14px}.f{display:grid;gap:4px}.f label{margin:0}.two{display:grid;gap:10px;grid-template-columns:1fr 1fr}textarea{width:100%;min-height:96px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:10px 12px;font:inherit;resize:vertical}[aria-invalid=true]{border-color:#e5484d;border-width:2px}fieldset{border:0;padding:0;margin:0;display:flex;gap:8px;flex-wrap:wrap}legend{font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:4px;padding:0}.seg label{flex:1;margin:0;position:relative}.seg input{position:absolute;opacity:0;width:1px;height:1px}.seg span{display:block;text-align:center;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--chip);font-weight:700;color:var(--ink);font-size:.95rem}.seg input:checked+span{background:var(--elec);color:#fff;border-color:var(--elec)}.seg input:focus-visible+span{outline:3px solid #7ea2ff}.btn.alt{background:var(--chip);color:var(--ink);border:1px solid var(--line)}.btn.full{width:100%}.hp{position:absolute;left:-9999px;width:1px;height:1px}.err,.note{padding:12px 14px;border-radius:12px;font-size:.92rem}.err{background:#fde8e8;color:#7a1d1d}.err ul{margin:6px 0 0;padding-left:18px}.note{background:var(--chip);color:var(--ink)}.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.th{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--bg)}.th img{display:block;width:100%;aspect-ratio:1;object-fit:cover}.th b,.th button[data-main]{position:absolute;left:6px;bottom:6px;font-size:.72rem;padding:4px 8px;border-radius:999px;border:0;background:var(--elec);color:#fff}.th button[data-main]{background:rgba(10,18,48,.75)}.th .del{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(10,18,48,.75);color:#fff}.pick{position:relative;display:flex}.pick .btn{display:flex;align-items:center;justify-content:center;width:100%}.pick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0;padding:0;border:0}.media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.card p{margin:4px 0;font-size:.92rem}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}#toast{transition:none}}
+.gal{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory}.gal img,.gal .media{flex:0 0 100%;width:100%;scroll-snap-align:center;aspect-ratio:16/10;object-fit:cover;border-radius:16px}.gal .media{position:relative}.gal .media svg{width:78%}a.btn{display:flex;align-items:center;justify-content:center}.btn:disabled{opacity:.6}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.row button{border:0;border-radius:10px;padding:8px 12px;background:var(--chip);color:var(--ink);font-weight:700}.dl{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin:0}.dl dt{font-size:.78rem;color:var(--muted)}.dl dd{margin:0;font-weight:700}.pre{white-space:pre-wrap}.acts{display:flex;gap:8px;flex-wrap:wrap}.acts button{flex:1;min-width:100px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a href="#accueil" class="logo" aria-label="AutoMova, accueil">
+        <i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-11 4 7 3-4 6 8"/></svg></i>AutoMova
+      </a>
+      <button type="button" id="acc" class="btn" style="height:38px;padding:0 14px">Connexion</button>
+    </div>
+    <nav aria-label="Navigation principale">
+      <a href="#accueil" class="on" data-nav="all">Accueil</a>
+      <a href="#annonces" data-nav="voiture">Voitures</a>
+      <a href="#annonces" data-nav="moto">Motos</a>
+      <a href="#annonces" data-nav="vente">Vente</a>
+      <a href="#annonces" data-nav="location">Location</a>
+      <a href="#publier" class="cta" data-pub>Publier une annonce</a>
+    </nav>
+  </div>
+</header>
+
+<main id="accueil">
+  <div class="hero">
+    <svg class="art" viewBox="0 0 520 220" fill="none" aria-hidden="true">
+      <g stroke="#4f7dff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".55">
+        <path d="M20 150c0-18 10-28 30-32l60-36c10-6 22-9 34-9h120c16 0 30 6 42 16l40 28 70 10c14 2 24 12 24 26v12"/>
+        <circle cx="110" cy="164" r="26"/><circle cx="360" cy="164" r="26"/>
+        <path d="M150 74l-10 40M250 73v42M304 90l-20 26"/>
+      </g>
+    </svg>
+    <div class="wrap">
+      <h1>Trouvez votre prochain véhicule en toute simplicité</h1>
+      <p>Achetez, vendez ou louez une voiture ou une moto en Côte d’Ivoire. Publiez votre annonce avec des photos et soyez contacté directement.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <form class="search" id="form" role="search" aria-label="Rechercher un véhicule">
+      <div class="fields">
+        <div><label for="q">Marque ou modèle</label><input id="q" type="search" placeholder="Toyota, Yamaha, Corolla…" autocomplete="off"></div>
+        <div><label for="ville">Ville ou commune</label>
+          <select id="ville"><option value="">Toutes les villes</option>
+            <option>Abidjan</option><option>Bingerville</option><option>Cocody</option><option>Grand-Bassam</option>
+            <option>Marcory</option><option>Port-Bouët</option><option>Treichville</option><option>Yopougon</option></select></div>
+        <div><label for="pmax">Prix maximum (FCFA)</label><input id="pmax" type="number" inputmode="numeric" min="0" step="10000" placeholder="Ex. 5 000 000"></div>
+        <button class="btn" type="submit">Rechercher</button>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Filtres rapides">
+        <button type="button" class="chip" data-f="all" aria-pressed="true">Toutes les annonces</button>
+        <button type="button" class="chip" data-f="voiture" aria-pressed="false">Voitures</button>
+        <button type="button" class="chip" data-f="moto" aria-pressed="false">Motos</button>
+        <button type="button" class="chip" data-f="vente" aria-pressed="false">Vente</button>
+        <button type="button" class="chip" data-f="location" aria-pressed="false">Location</button>
+      </div>
+      <div class="f" style="margin-top:12px;max-width:260px"><label for="tri">Trier par</label><select id="tri"><option value="date">Plus récentes</option><option value="asc">Prix croissant</option><option value="desc">Prix décroissant</option></select></div>
+    </form>
+
+    <p class="demo" id="status">Chargement des annonces…</p>
+
+    <div id="annonces"></div>
+
+    <div class="pub" id="publier">
+      <h2>Vous avez un véhicule à vendre ou à louer ?</h2>
+      <p>Publiez votre annonce gratuitement, ajoutez vos photos et laissez les acheteurs vous contacter directement.</p>
+      <button class="btn" type="button" data-pub>Publier une annonce</button>
+    </div>
+
+    <p class="warn"><strong>Avant tout paiement,</strong> vérifiez le véhicule et ses documents (carte grise, visite technique, assurance). AutoMova met les personnes en relation et ne garantit pas l’authenticité des véhicules.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div><h3>AutoMova</h3><p style="margin:0">Voitures et motos à vendre ou à louer en Côte d’Ivoire.</p></div>
+    <div><h3>Contact</h3><a href="#accueil">Adresse e-mail : à compléter</a><a href="#accueil">WhatsApp : à compléter</a></div>
+    <div><h3>Informations</h3><a href="#accueil">Conditions d’utilisation (à compléter)</a><a href="#accueil">Politique de confidentialité (à compléter)</a></div>
+  </div>
+</footer>
+<div id='pubm' class='modal' role='dialog' aria-modal='true' aria-labelledby='pt' hidden><div class='sheet' tabindex='-1'><div class='sh'><h2 id='pt'>Publier une annonce</h2><button type='button' class='x' id='pclose' aria-label='Fermer'>✕</button></div><form id='pf' novalidate class='fm'><div id='fview' class='fm'><fieldset class='seg'><legend>Type de véhicule</legend><label><input type='radio' name='vt' value='voiture' checked><span>Voiture</span></label><label><input type='radio' name='vt' value='moto'><span>Moto</span></label></fieldset><fieldset class='seg'><legend>Type d’annonce</legend><label><input type='radio' name='am' value='vente' checked><span>Vente</span></label><label><input type='radio' name='am' value='location'><span>Location</span></label></fieldset><div class='f'><label for='titre'>Titre de l’annonce</label><input id='titre' maxlength='80' placeholder='Ex. Toyota Corolla très propre'></div><div class='two'><div class='f'><label for='marque'>Marque</label><input id='marque' maxlength='40'></div><div class='f'><label for='modele'>Modèle</label><input id='modele' maxlength='40'></div></div><div class='two'><div class='f'><label for='annee'>Année de fabrication</label><input id='annee' type='number' inputmode='numeric' placeholder='2018'></div><div class='f'><label for='prix' id='lprix'>Prix (FCFA)</label><input id='prix' type='number' inputmode='numeric' min='0' step='1000'></div></div><div class='f'><label for='fville'>Ville ou commune</label><select id='fville'><option value=''>Choisir…</option><option>Abidjan</option><option>Bingerville</option><option>Cocody</option><option>Grand-Bassam</option><option>Marcory</option><option>Port-Bouët</option><option>Treichville</option><option>Yopougon</option></select></div><div class='two' data-m='vente'><div class='f'><label for='etat'>État du véhicule</label><select id='etat'><option value='occasion'>Occasion</option><option value='neuf'>Neuf</option></select></div><div class='f' id='wkm'><label for='km'>Kilométrage (km)</label><input id='km' type='number' inputmode='numeric' min='0'></div></div><div class='f' data-v='voiture'><label for='carb'>Carburant</label><select id='carb'><option>Essence</option><option>Diesel</option><option>Hybride</option><option>Électrique</option><option>Autre</option></select></div><div class='f'><label for='desc'>Description détaillée</label><textarea id='desc' maxlength='1500' placeholder='État général, options, entretien, raison de la vente…'></textarea></div><div class='f' data-m='location'><label for='cond'>Conditions de location</label><textarea id='cond' maxlength='600' placeholder='Caution, permis exigé, kilométrage inclus…'></textarea></div><div class='f' data-m='location'><label for='dispo'>Disponibilité</label><select id='dispo'><option>Disponible maintenant</option><option>Bientôt disponible</option><option>Indisponible</option></select></div><div class='f'><label for='tel'>Numéro de téléphone</label><input id='tel' type='tel' inputmode='tel' placeholder='07 00 00 00 00' autocomplete='tel'></div><div class='f'><label for='wa'>Numéro WhatsApp (laisser vide si c’est le même)</label><input id='wa' type='tel' inputmode='tel' placeholder='07 00 00 00 00'></div><div class='f'><label>Photos (jusqu’à 8, la première est la photo principale)</label><div class='pick'><span class='btn alt' id='padd' tabindex='-1'>Choisir des photos</span><input id='pfile' type='file' accept='image/*' multiple aria-label='Choisir des photos'></div><div class='thumbs' id='thumbs'></div><small id='pcount'>0 / 8 photos</small></div><input id='site' class='hp' tabindex='-1' autocomplete='off' aria-hidden='true'><div id='perr' class='err' role='alert' hidden></div><button type='submit' class='btn full'>Voir l’aperçu</button></div><div id='pview' class='fm' hidden><h3>Aperçu de votre annonce</h3><div id='pcard'></div><div id='pstatus' class='note' role='status' hidden></div><div class='two'><button type='button' class='btn alt' id='pback'>Modifier</button><button type='button' class='btn' id='ppub'>Publier mon annonce</button></div></div></form></div></div><div id="authm" class="modal" style="z-index:60" role="dialog" aria-modal="true" aria-labelledby="at" hidden><div class="sheet" tabindex="-1"><div class="sh"><h2 id="at">Mon compte</h2><button type="button" class="x" data-close="authm" aria-label="Fermer">✕</button></div>
+<div id="aout" class="fm"><p id="amsg" class="note">Connectez-vous ou créez un compte pour publier, enregistrer des favoris et gérer vos annonces.</p><div class="f"><label for="aemail">Adresse e-mail</label><input id="aemail" type="email" autocomplete="email"></div><div class="f"><label for="apass">Mot de passe (8 caractères minimum)</label><input id="apass" type="password" autocomplete="current-password"></div><div id="aerr" class="err" role="alert" hidden></div><div class="two"><button type="button" class="btn" id="alogin">Se connecter</button><button type="button" class="btn alt" id="asign">Créer un compte</button></div></div>
+<div id="ain" class="fm" hidden><p id="awho" class="note"></p><button type="button" class="btn alt" id="alogout">Se déconnecter</button><h3>Mes annonces</h3><div id="mine" class="fm"></div></div></div></div>
+<div id="detm" class="modal" role="dialog" aria-modal="true" aria-label="Détail de l’annonce" hidden><div class="sheet" tabindex="-1"><div class="sh"><h2>Annonce</h2><button type="button" class="x" data-close="detm" aria-label="Fermer">✕</button></div><div id="detc" class="fm"></div></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+  var CAR='<svg viewBox="0 0 260 110" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 80c0-12 6-18 18-21l34-20c7-4 14-6 22-6h58c10 0 18 3 25 9l24 16 28 5c8 2 13 8 13 16v6"/><circle cx="68" cy="84" r="16"/><circle cx="198" cy="84" r="16"/><path d="M88 38l-6 20h60V34M150 34l20 24"/></svg>';
+  var MOTO='<svg viewBox="0 0 260 110" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="58" cy="76" r="22"/><circle cx="206" cy="76" r="22"/><path d="M58 76l36-34h46l30 34M94 42l-6-12h-16M140 42l14-16h20M112 76h40l-12-34"/></svg>';
+  var DATA=[];
+  var st={f:'all'}, box=document.getElementById('annonces');
+  function fcfa(n){return n.toLocaleString('fr-FR')+' FCFA'}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function card(a){
+    var loc=a.m==='location';
+    return '<article class="card" data-id="'+a.id+'" tabindex="0"><div class="media">'+media(a)+
+      '<span class="tag">'+(loc?'Location':'Vente')+'</span>'+(a.v?'<span class="tag ex">Vérifiée</span>':'')+'</div>'+
+      '<div class="body"><h3>'+esc(a.titre)+'</h3><div class="meta"><span>'+esc(a.ville)+'</span><span>'+a.an+'</span>'+
+      (a.km?'<span>'+a.km.toLocaleString('fr-FR')+' km</span>':'')+'</div>'+
+      '<div class="price">'+fcfa(a.prix)+(loc?' <small>par jour</small>':'')+'</div></div></article>';
+  }
+  function sect(titre,list,max){
+    if(!list.length) return '';
+    return '<section class="list"><div class="head"><h2>'+titre+'</h2><span>'+list.length+' annonce'+(list.length>1?'s':'')+'</span></div><div class="grid">'+
+      list.slice(0,max||99).map(card).join('')+'</div></section>';
+  }
+  function filtered(){
+    var q=document.getElementById('q').value.trim().toLowerCase(),
+        v=document.getElementById('ville').value,
+        p=parseInt(document.getElementById('pmax').value,10);
+    return DATA.filter(function(a){
+      if(st.f==='voiture'||st.f==='moto'){ if(a.t!==st.f) return false }
+      if(st.f==='vente'||st.f==='location'){ if(a.m!==st.f) return false }
+      if(q && (a.titre+' '+a.marque+' '+a.modele).toLowerCase().indexOf(q)<0) return false;
+      if(v && a.ville!==v) return false;
+      if(p && a.prix>p) return false;
+      return true;
+    });
+  }
+  function render(){
+    var r=filtered().sort(sorter);
+    if(!r.length){box.innerHTML='<section class="list"><div class="empty"><strong>Aucune annonce ne correspond.</strong><br>Essayez un autre mot, une autre ville ou un prix plus élevé.</div></section>';return}
+    var filtering=st.f!=='all'||document.getElementById('q').value||document.getElementById('ville').value||document.getElementById('pmax').value;
+    if(filtering){box.innerHTML=sect('Résultats',r);return}
+    box.innerHTML=sect('Annonces récentes',r,4)+
+      sect('Voitures à vendre',r.filter(function(a){return a.t==='voiture'&&a.m==='vente'}))+
+      sect('Motos à vendre',r.filter(function(a){return a.t==='moto'&&a.m==='vente'}))+
+      sect('Véhicules à louer',r.filter(function(a){return a.m==='location'}));
+  }
+  function setF(f){
+    st.f=f;
+    document.querySelectorAll('#chips .chip').forEach(function(c){c.setAttribute('aria-pressed',c.dataset.f===f)});
+    document.querySelectorAll('nav a[data-nav]').forEach(function(a){a.classList.toggle('on',a.dataset.nav===f)});
+    render();
+  }
+  function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove('show')},3800)}
+  document.getElementById('chips').addEventListener('click',function(e){var b=e.target.closest('.chip');if(b)setF(b.dataset.f)});
+  document.getElementById('form').addEventListener('submit',function(e){e.preventDefault();render();box.scrollIntoView()});
+  ['q','ville','pmax'].forEach(function(id){document.getElementById(id).addEventListener('input',render)});
+  document.querySelectorAll('nav a[data-nav]').forEach(function(a){a.addEventListener('click',function(){setF(a.dataset.nav)})});
+  var pm=document.getElementById('pubm'),pf=document.getElementById('pf'),photos=[];function $(id){return document.getElementById(id)}function val(n){return pf.querySelector('input[name='+n+']:checked').value}function sync(){var v=val('vt'),m=val('am');pf.querySelectorAll('[data-v]').forEach(function(e){e.hidden=e.dataset.v!==v});pf.querySelectorAll('[data-m]').forEach(function(e){e.hidden=e.dataset.m!==m});$('wkm').hidden=!(m==='vente'&&$('etat').value==='occasion');$('lprix').textContent=m==='location'?'Prix par jour (FCFA)':'Prix (FCFA)'}function openP(){pm.hidden=false;document.body.style.overflow='hidden';$('fview').hidden=false;$('pview').hidden=true;sync();pm.querySelector('.sheet').focus()}function closeP(){pm.hidden=true;document.body.style.overflow=''}function tel(v){var d=v.replace(/[^0-9]/g,'');if(d.indexOf('00225')===0)d=d.slice(5);else if(d.length===13&&d.indexOf('225')===0)d=d.slice(3);return d.length===10?'225'+d:''}function drawPh(){$('thumbs').innerHTML=photos.map(function(u,i){return `<div class='th'><img src='${u}' alt='Photo ${i+1}'>${i===0?`<b>Principale</b>`:`<button type='button' data-main='${i}'>Principale</button>`}<button type='button' class='del' data-del='${i}' aria-label='Supprimer la photo ${i+1}'>✕</button></div>`}).join('');$('pcount').textContent=photos.length+' / 8 photos'}function check(){var bad=[],yr=new Date().getFullYear(),loc=val('am')==='location';function req(id,ok,msg){var e=$(id);e.removeAttribute('aria-invalid');if(!ok){e.setAttribute('aria-invalid','true');bad.push([e,msg])}}req('titre',$('titre').value.trim().length>=5,'Titre : au moins 5 caractères.');req('marque',$('marque').value.trim().length>0,'Indiquez la marque.');req('modele',$('modele').value.trim().length>0,'Indiquez le modèle.');var an=parseInt($('annee').value,10);req('annee',an>=1980&&an<=yr+1,'Année : entre 1980 et '+(yr+1)+'.');req('prix',parseInt($('prix').value,10)>0,loc?'Indiquez le prix par jour.':'Indiquez le prix.');req('fville',!!$('fville').value,'Choisissez une ville ou une commune.');if(loc)req('cond',$('cond').value.trim().length>=10,'Décrivez les conditions de location.');req('desc',$('desc').value.trim().length>=20,'Description : au moins 20 caractères.');req('tel',!!tel($('tel').value),'Téléphone : 10 chiffres (ex. 07 00 00 00 00).');req('wa',!$('wa').value.trim()||!!tel($('wa').value),'Numéro WhatsApp invalide : 10 chiffres.');if(!photos.length)bad.push([$('padd'),'Ajoutez au moins une photo.']);var b=$('perr');if(bad.length){b.hidden=false;b.innerHTML='<strong>À corriger :</strong><ul>'+bad.map(function(x){return '<li>'+esc(x[1])+'</li>'}).join('')+'</ul>';bad[0][0].focus();return false}b.hidden=true;return true}function preview(){var loc=val('am')==='location',car=val('vt')==='voiture',km=!loc&&$('etat').value==='occasion'&&$('km').value?parseInt($('km').value,10):0,w=tel($('wa').value)||tel($('tel').value);$('pcard').innerHTML=`<article class='card'><div class='media'><img src='${photos[0]}' alt=''><span class='tag'>${loc?'Location':'Vente'}</span></div><div class='body'><h3>${esc($('titre').value.trim())}</h3><div class='meta'><span>${esc($('marque').value.trim())} ${esc($('modele').value.trim())}</span><span>${esc($('fville').value)}</span><span>${parseInt($('annee').value,10)}</span>${km?`<span>${km.toLocaleString('fr-FR')} km</span>`:''}${car?`<span>${esc($('carb').value)}</span>`:''}${loc?'':`<span>${$('etat').value==='neuf'?'Neuf':'Occasion'}</span>`}</div><div class='price'>${fcfa(parseInt($('prix').value,10))}${loc?' <small>par jour</small>':''}</div><p>${esc($('desc').value.trim())}</p>${loc?`<p><strong>Conditions :</strong> ${esc($('cond').value.trim())}<br><strong>Disponibilité :</strong> ${esc($('dispo').value)}</p>`:''}<p class='meta'><span>Téléphone : +${tel($('tel').value)}</span><span>WhatsApp : wa.me/${w}</span></p></div></article>`;$('fview').hidden=true;$('pview').hidden=false;$('pstatus').hidden=true;pm.querySelector('.sheet').scrollTop=0}document.querySelectorAll('[data-pub]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();if(!user){authMsg('Connectez-vous pour publier une annonce.');openAuth();return}openP()})});$('pclose').addEventListener('click',closeP);pm.addEventListener('click',function(e){if(e.target===pm)closeP()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!pm.hidden)closeP()});pf.addEventListener('change',sync);$('pfile').addEventListener('change',function(){var fs=[].slice.call(this.files);this.value='';fs.forEach(function(f){if(!/^image\//.test(f.type))return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);if(photos.length<8){photos.push(c.toDataURL('image/jpeg',.72));drawPh()}else toast('Maximum 8 photos.')};im.onerror=function(){toast('Cette photo ne peut pas être lue. Essayez une autre image.')};im.src=r.result};r.readAsDataURL(f)})});$('thumbs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.del){photos.splice(+b.dataset.del,1)}else if(b.dataset.main){photos.unshift(photos.splice(+b.dataset.main,1)[0])}drawPh()});pf.addEventListener('submit',function(e){e.preventDefault();if(check())preview()});$('pback').addEventListener('click',function(){$('fview').hidden=false;$('pview').hidden=true});
+  var SB_URL='https://ilkoaufbyefymbgiskji.supabase.co',SB_KEY='sb_publishable_9CcNT8yp-IOIqFlK-YCLPg_Z5Fji1sn',sb=null,user=null,favs={},mineList=[];
+  function stat(m){var s=$('status');s.textContent=m;s.hidden=!m}
+  function media(a){return a.photos&&a.photos[0]?'<img src="'+esc(a.photos[0])+'" alt="" loading="lazy">':(a.t==='moto'?MOTO:CAR)}
+  function sorter(a,b){var t=$('tri').value;return t==='asc'?a.prix-b.prix:t==='desc'?b.prix-a.prix:(a.date<b.date?1:-1)}
+  function mapA(r){return{id:r.id,t:r.type_vehicule,m:r.type_annonce,titre:r.titre,marque:r.marque,modele:r.modele,ville:r.ville,an:r.annee,km:r.kilometrage||0,prix:r.prix,etat:r.etat,carb:r.carburant,desc:r.description,cond:r.conditions_location,dispo:r.disponibilite,photos:(r.photos||[]).filter(function(p){return p.indexOf(SB_URL)===0}),v:r.verifiee,date:r.created_at}}
+  async function load(){
+    stat('Chargement des annonces…');
+    var r=await sb.from('annonces').select('*').eq('statut','active').order('created_at',{ascending:false}).limit(200);
+    if(r.error){stat('Impossible de charger les annonces : '+r.error.message);return}
+    DATA=r.data.map(mapA);stat(DATA.length?'':'Aucune annonce pour le moment. Soyez le premier à publier !');render();
+  }
+  function unlock(){if(!document.querySelector('.modal:not([hidden])'))document.body.style.overflow=''}
+  function openM(id){$(id).hidden=false;document.body.style.overflow='hidden';$(id).querySelector('.sheet').focus()}
+  function closeM(id){$(id).hidden=true;unlock()}
+  function authMsg(m){$('amsg').textContent=m}
+  function updAcc(){$('acc').textContent=user?'Mon compte':'Connexion'}
+  function openAuth(){$('aout').hidden=!!user;$('ain').hidden=!user;$('aerr').hidden=true;if(user){$('awho').textContent='Connecté : '+user.email;loadMine()}openM('authm')}
+  async function loadFavs(){var r=await sb.from('favoris').select('annonce_id');favs={};(r.data||[]).forEach(function(f){favs[f.annonce_id]=1})}
+  async function loadMine(){
+    var m=$('mine');m.textContent='Chargement…';
+    var a=await sb.from('annonces').select('id,titre,statut,photos').eq('user_id',user.id).order('created_at',{ascending:false});
+    var f=await sb.from('favoris').select('annonce_id,annonces(titre)');
+    mineList=a.data||[];var h='';
+    mineList.forEach(function(x){h+='<div class="row"><span>'+esc(x.titre)+(x.statut==='suspendue'?' (suspendue)':'')+'</span><button data-del="'+x.id+'">Supprimer</button></div>'});
+    m.innerHTML=(h||'<p class="note">Vous n’avez pas encore d’annonce.</p>')+'<h3>Mes favoris</h3>'+((f.data||[]).length?f.data.map(function(x){return '<div class="row"><span>'+esc(x.annonces?x.annonces.titre:'Annonce')+'</span><button data-open="'+x.annonce_id+'">Voir</button></div>'}).join(''):'<p class="note">Aucun favori.</p>');
+  }
+  async function delAd(id){
+    if(!confirm('Supprimer définitivement cette annonce ?'))return;
+    var x=mineList.find(function(y){return y.id===id}),paths=((x&&x.photos)||[]).map(function(u){return decodeURIComponent(u.split('/photos/')[1]||'')}).filter(Boolean);
+    var r=await sb.from('annonces').delete().eq('id',id);
+    if(r.error){toast('Suppression impossible : '+r.error.message);return}
+    if(paths.length)await sb.storage.from('photos').remove(paths);
+    toast('Annonce supprimée.');loadMine();load();
+  }
+  async function doAuth(sign){
+    var e=$('aemail').value.trim(),p=$('apass').value,b=$('aerr');
+    function err(m){b.hidden=false;b.textContent=m}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e))return err('Adresse e-mail invalide.');
+    if(p.length<8)return err('Le mot de passe doit avoir au moins 8 caractères.');
+    b.hidden=true;
+    var r=sign?await sb.auth.signUp({email:e,password:p}):await sb.auth.signInWithPassword({email:e,password:p});
+    if(r.error)return err(sign?'Inscription impossible : '+r.error.message:'E-mail ou mot de passe incorrect.');
+    if(!r.data.session)return err('Compte créé. Confirmez votre adresse e-mail (vérifiez vos messages), puis connectez-vous.');
+    user=r.data.session.user;updAcc();await loadFavs();$('apass').value='';openAuth();
+  }
+  async function publish(){
+    if($('site').value)return;
+    if(!user){authMsg('Connectez-vous pour publier une annonce.');openAuth();return}
+    var btn=$('ppub'),s=$('pstatus'),paths=[];btn.disabled=true;s.hidden=false;s.textContent='Publication en cours…';
+    try{
+      var urls=[];
+      for(var i=0;i<photos.length;i++){
+        var blob=await (await fetch(photos[i])).blob(),path=user.id+'/'+Date.now()+'-'+i+'.jpg';
+        var u=await sb.storage.from('photos').upload(path,blob,{contentType:'image/jpeg'});
+        if(u.error)throw u.error;paths.push(path);urls.push(sb.storage.from('photos').getPublicUrl(path).data.publicUrl);
+      }
+      var loc=val('am')==='location',car=val('vt')==='voiture',occ=!loc&&$('etat').value==='occasion';
+      var row={type_vehicule:val('vt'),type_annonce:val('am'),titre:$('titre').value.trim(),marque:$('marque').value.trim(),modele:$('modele').value.trim(),annee:parseInt($('annee').value,10),prix:parseInt($('prix').value,10),ville:$('fville').value,etat:loc?null:$('etat').value,kilometrage:occ&&$('km').value?parseInt($('km').value,10):null,carburant:car?$('carb').value:null,description:$('desc').value.trim(),conditions_location:loc?$('cond').value.trim():null,disponibilite:loc?$('dispo').value:null,photos:urls};
+      var r=await sb.from('annonces').insert(row).select('id').single();
+      if(r.error)throw r.error;
+      var c=await sb.from('contacts').insert({annonce_id:r.data.id,telephone:tel($('tel').value),whatsapp:tel($('wa').value)||null});
+      if(c.error){await sb.from('annonces').delete().eq('id',r.data.id);throw c.error}
+      s.innerHTML='<strong>Annonce publiée.</strong> Elle est maintenant visible sur AutoMova.';
+      photos=[];drawPh();pf.reset();sync();load();
+      setTimeout(function(){closeP();btn.disabled=false},1800);
+    }catch(e){
+      if(paths.length)sb.storage.from('photos').remove(paths);
+      s.innerHTML='<strong>Échec de la publication.</strong> '+esc(e.message||'Erreur inconnue');btn.disabled=false;
+    }
+  }
+  async function toggleFav(id){
+    if(!user){authMsg('Connectez-vous pour enregistrer des favoris.');openAuth();return}
+    var r=favs[id]?await sb.from('favoris').delete().eq('annonce_id',id).eq('user_id',user.id):await sb.from('favoris').insert({annonce_id:id});
+    if(r.error){toast('Action impossible : '+r.error.message);return}
+    if(favs[id])delete favs[id];else favs[id]=1;
+    var b=document.querySelector('[data-act=fav]');if(b)b.textContent=favs[id]?'♥ Enregistrée':'♡ Enregistrer';
+  }
+  async function share(id){
+    var a=DATA.find(function(x){return x.id===id}),u=location.href.split('#')[0]+'#annonce-'+id;
+    if(navigator.share){try{await navigator.share({title:a?a.titre:'AutoMova',url:u})}catch(e){}}
+    else{try{await navigator.clipboard.writeText(u);toast('Lien copié.')}catch(e){toast(u)}}
+  }
+  async function report(id){
+    if(!user){authMsg('Connectez-vous pour signaler une annonce.');openAuth();return}
+    var m=prompt('Pourquoi signalez-vous cette annonce ? (3 à 300 caractères)');
+    if(!m||m.trim().length<3)return;
+    var r=await sb.from('signalements').insert({annonce_id:id,motif:m.trim().slice(0,300)});
+    toast(r.error?'Signalement impossible : '+r.error.message:'Merci, l’annonce a été signalée à l’équipe.');
+  }
+  async function openDetail(id){
+    var a=DATA.find(function(x){return x.id===id});if(!a)return;
+    var loc=a.m==='location',ph=a.photos,sim=DATA.filter(function(x){return x.id!==id&&x.t===a.t&&x.m===a.m}).slice(0,3);
+    function dd(k,v){return v?'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>':''}
+    $('detc').innerHTML='<div class="gal">'+(ph.length?ph.map(function(p,i){return '<img src="'+esc(p)+'" alt="Photo '+(i+1)+' de '+esc(a.titre)+'">'}).join(''):'<div class="media">'+(a.t==='moto'?MOTO:CAR)+'</div>')+'</div>'
+    +'<h3>'+esc(a.titre)+'</h3><div class="price">'+fcfa(a.prix)+(loc?' <small>par jour</small>':'')+'</div>'
+    +'<p class="meta"><span>'+(loc?'Location':'Vente')+'</span>'+(a.v?'<span>Vérifiée par AutoMova</span>':'')+'<span>Publiée le '+new Date(a.date).toLocaleDateString('fr-FR')+'</span></p>'
+    +'<dl class="dl">'+dd('Marque',a.marque)+dd('Modèle',a.modele)+dd('Année',a.an)+dd('Kilométrage',a.km?a.km.toLocaleString('fr-FR')+' km':'')+dd('Carburant',a.carb)+dd('État',a.etat)+dd('Ville',a.ville)+dd('Disponibilité',a.dispo)+'</dl>'
+    +'<p class="pre">'+esc(a.desc)+'</p>'+(loc&&a.cond?'<p class="pre"><strong>Conditions :</strong> '+esc(a.cond)+'</p>':'')
+    +'<div id="dcont" class="fm"></div><div class="acts"><button class="btn alt" data-act="fav" data-id="'+id+'">'+(favs[id]?'♥ Enregistrée':'♡ Enregistrer')+'</button><button class="btn alt" data-act="share" data-id="'+id+'">Partager</button><button class="btn alt" data-act="report" data-id="'+id+'">Signaler</button></div>'
+    +'<p class="warn">Avant tout paiement, vérifiez le véhicule et ses documents (carte grise, visite technique, assurance). AutoMova ne garantit pas l’authenticité des véhicules.</p>'
+    +(sim.length?'<h3>Annonces similaires</h3><div class="grid">'+sim.map(card).join('')+'</div>':'');
+    openM('detm');$('detm').querySelector('.sheet').scrollTop=0;
+    var ct=$('dcont');
+    if(!user){ct.innerHTML='<button class="btn full" data-act="login">Se connecter pour voir le contact du vendeur</button>';return}
+    ct.textContent='Chargement du contact…';
+    var r=await sb.from('contacts').select('telephone,whatsapp').eq('annonce_id',id).maybeSingle();
+    if(!r.data){ct.textContent='Contact indisponible.';return}
+    var p=r.data.telephone,w=r.data.whatsapp||p,txt=encodeURIComponent('Bonjour, je suis intéressé(e) par votre annonce AutoMova : '+a.titre);
+    ct.innerHTML='<a class="btn full" href="sms:+'+p+'">Contacter le vendeur</a><a class="btn full" style="background:#128c4a" target="_blank" rel="noopener" href="https://wa.me/'+w+'?text='+txt+'">Contacter sur WhatsApp</a><a class="btn alt full" href="tel:+'+p+'">Appeler le vendeur</a>';
+  }
+  function ev(){
+    $('acc').addEventListener('click',openAuth);
+    $('alogin').addEventListener('click',function(){doAuth(false)});
+    $('asign').addEventListener('click',function(){doAuth(true)});
+    $('alogout').addEventListener('click',async function(){await sb.auth.signOut();user=null;favs={};updAcc();closeM('authm');toast('Vous êtes déconnecté.')});
+    document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',function(){closeM(b.dataset.close)})});
+    ['authm','detm'].forEach(function(id){$(id).addEventListener('click',function(e){if(e.target===$(id))closeM(id)})});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeM('authm');closeM('detm')}});
+    $('mine').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(b.dataset.del)delAd(b.dataset.del);else if(b.dataset.open){closeM('authm');openDetail(b.dataset.open)}});
+    box.addEventListener('click',function(e){var c=e.target.closest('.card');if(c)openDetail(c.dataset.id)});
+    $('detc').addEventListener('click',function(e){
+      var c=e.target.closest('.card');if(c){openDetail(c.dataset.id);return}
+      var b=e.target.closest('button[data-act]');if(!b)return;var id=b.dataset.id,k=b.dataset.act;
+      if(k==='login'){authMsg('Connectez-vous pour voir les coordonnées du vendeur.');openAuth()}
+      else if(k==='fav')toggleFav(id);else if(k==='share')share(id);else if(k==='report')report(id);
+    });
+    $('tri').addEventListener('change',render);
+    $('ppub').addEventListener('click',publish);
+  }
+  async function init(){
+    if(!window.supabase){stat('Connexion à la base de données impossible. Vérifiez votre connexion Internet.');return}
+    sb=window.supabase.createClient(SB_URL,SB_KEY);
+    var g=await sb.auth.getSession();user=g.data.session?g.data.session.user:null;updAcc();if(user)loadFavs();
+    sb.auth.onAuthStateChange(function(e,s){setTimeout(function(){user=s?s.user:null;updAcc();if(user)loadFavs()},0)});
+    await load();
+    var m=location.hash.match(/^#annonce-([0-9a-f-]{36})$/);if(m)openDetail(m[1]);
+  }
+  ev();init();
+})();
+</script>
+</body>
+</html>
